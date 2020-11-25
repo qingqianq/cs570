@@ -218,3 +218,4 @@ public class Maze implements GridColors {
     /*</exercise>*/
 }
 /*</listing>*/
+
