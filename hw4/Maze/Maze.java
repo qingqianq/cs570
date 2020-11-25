@@ -34,7 +34,7 @@ public class Maze implements GridColors {
      */
     public boolean findMazePath(int x, int y) {
         //1. 如果节点是不能访问， 返回假
-        if(!maze.getColor(x,y).equals(NON_BACKGROUND))
+        if(!maze.getColor(x,y).equals(BACKGROUND))
             return false;
 
         //到达出口节点， 并且因为1, 节点是可以访问的
@@ -65,7 +65,7 @@ public class Maze implements GridColors {
             maze.recolor(x, y, PATH);
             return true;
         }
-        maze.recolor(x, y, NON_BACKGROUND);
+        maze.recolor(x, y, BACKGROUND);
         //上下左右没有找到适合的， 返回假
     	return false;
     }
@@ -79,7 +79,7 @@ public class Maze implements GridColors {
     }
 
     public void findMazePathBased(int x, int y, ArrayList<ArrayList<PairInt>> result, ArrayList<PairInt> trace){
-        if(!maze.getColor(x,y).equals(NON_BACKGROUND))
+        if(!maze.getColor(x,y).equals(BACKGROUND))
             return;
         if(x == maze.getNCols() - 1 && y == maze.getNRows() - 1){
             trace.add(new PairInt(x, y));
@@ -106,7 +106,7 @@ public class Maze implements GridColors {
             findMazePathBased(x, y - 1, result, trace);
         }
 
-        maze.recolor(x, y, NON_BACKGROUND);
+        maze.recolor(x, y, BACKGROUND);
         trace.remove(trace.size() - 1);
     }
 
@@ -121,7 +121,7 @@ public class Maze implements GridColors {
         Arrays.fill(trace, -1);
         trace[0] = 0;
         Queue<PairInt> queue = new LinkedList<PairInt>();
-        if(!maze.getColor(0,0).equals(NON_BACKGROUND)){
+        if(!maze.getColor(0,0).equals(BACKGROUND)){
             return new ArrayList<PairInt>();
         }
         queue.offer(new PairInt(0,0));
@@ -132,7 +132,7 @@ public class Maze implements GridColors {
             int y = pairInt.getY();
             PairInt left = new PairInt(x - 1, y);
             if(isValidPair(left) &&
-                    maze.getColor(x - 1, y).equals(NON_BACKGROUND)){
+                    maze.getColor(x - 1, y).equals(BACKGROUND)){
                 maze.recolor(x - 1, y, TEMPORARY);
                 trace[y * col + x - 1] = y * col + x;
                 queue.offer(left);
@@ -140,7 +140,7 @@ public class Maze implements GridColors {
 
             PairInt right = new PairInt(x + 1, y);
             if(isValidPair(right) &&
-                    maze.getColor(x + 1, y).equals(NON_BACKGROUND)){
+                    maze.getColor(x + 1, y).equals(BACKGROUND)){
                 maze.recolor(x + 1, y, TEMPORARY);
                 trace[y * col + x + 1] = y * col + x;
                 queue.offer(right);
@@ -148,7 +148,7 @@ public class Maze implements GridColors {
 
             PairInt up = new PairInt(x, y - 1);
             if(isValidPair(up) &&
-                    maze.getColor(x, y - 1).equals(NON_BACKGROUND)){
+                    maze.getColor(x, y - 1).equals(BACKGROUND)){
                 maze.recolor(x, y - 1, TEMPORARY);
                 trace[(y - 1) * col + x] = y * col + x;
                 queue.offer(up);
@@ -156,7 +156,7 @@ public class Maze implements GridColors {
 
             PairInt down = new PairInt(x, y + 1);
             if(isValidPair(down) &&
-                    maze.getColor(x, y + 1).equals(NON_BACKGROUND)){
+                    maze.getColor(x, y + 1).equals(BACKGROUND)){
                 maze.recolor(x, y + 1, TEMPORARY);
                 trace[(y + 1) * col + x] = y * col + x;
                 queue.offer(down);
@@ -187,9 +187,9 @@ public class Maze implements GridColors {
         return true;
     }
 
-    public void printAllTrace(ArrayList<ArrayList<PairInt>> allMazePaths){
+    public void printAllTrace(List<List<PairInt>> allMazePaths){
         System.out.println(allMazePaths.size());
-        for(ArrayList<PairInt> list: allMazePaths){
+        for(List<PairInt> list: allMazePaths){
             for(PairInt tmp: list){
                 System.out.print(tmp.toString());
             }
@@ -197,7 +197,7 @@ public class Maze implements GridColors {
         }
     }
 
-    public void printShortestTrace(ArrayList<PairInt> shortest){
+    public void printShortestTrace(List<PairInt> shortest){
         for(PairInt p : shortest){
             System.out.print(p.toString());
         }
